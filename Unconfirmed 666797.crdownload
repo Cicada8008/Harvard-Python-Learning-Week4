@@ -1,0 +1,47 @@
+def main():
+    # List of month names
+    months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ]
+
+    while True:
+        date_input = input("Enter a date (MM/DD/YYYY or Month Day, Year): ").strip()
+
+        try:
+            # Case 1: If input is in MM/DD/YYYY format
+            if "/" in date_input:
+                month, day, year = date_input.split("/")
+                month = int(month)
+                day = int(day)
+                year = int(year)
+
+                # Check if month and day are valid
+                if month < 1 or month > 12 or day < 1 or day > 31:
+                    raise ValueError
+
+            # Case 2: If input is in "Month Day, Year" format
+            else:
+                parts = date_input.split(" ")
+                if len(parts) != 3 or not parts[1][:-1].isdigit():  # Validate structure
+                    raise ValueError
+
+                month_str, day_str, year_str = parts
+                month = months.index(month_str) + 1  # Get month as number (1-based index)
+                day = int(day_str[:-1])  # Remove the comma from day
+                year = int(year_str)
+
+                # Check if day is valid
+                if day < 1 or day > 31:
+                    raise ValueError
+
+            # Print in YYYY-MM-DD format, padding month and day with leading zeroes
+            print(f"{year}-{month:02}-{day:02}")
+            break  # Exit loop if input is valid
+
+        except (ValueError, IndexError):
+            # If the date is invalid or incorrectly formatted, prompt again
+            print("Invalid date, please try again.")
+
+if __name__ == "__main__":
+    main()
